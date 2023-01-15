@@ -5,19 +5,10 @@ msgstr "Project-Id-Version: tygh\n"
 "Language: en_US\n"
 
 msgctxt "Addons::name::only_one_product"
-msgid "My addon name"
-msgstr "My addon name"
+msgid "Only one product"
+msgstr "Only one product"
 
 msgctxt "Addons::description::only_one_product"
-msgid "My addon description"
-msgstr "My addon description"
-
-msgctxt "SettingsOptions::only_one_product::my_setting"
-msgid "My addon setting"
-msgstr "My addon setting"
-
-msgctxt "Languages::only_one_product.my_variable"
-msgid "Custom addon variable"
-msgstr "Custom addon variable"
-
+msgid "Allows customers to buy a product in a single copy"
+msgstr "Allows customers to buy a product in a single copy"
 

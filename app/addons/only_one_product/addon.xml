@@ -6,4 +6,18 @@
     <position>0</position>
     <default_language>en</default_language>
     <status>active</status>
+    <queries>
+        <item for="install">DROP TABLE IF EXISTS ?:only_one_product_user_links</item>
+        <item for="install">
+            CREATE TABLE `?:only_one_product_user_links` (
+                `link_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `product_id` MEDIUMINT UNSIGNED NOT NULL,
+                `user_id` MEDIUMINT UNSIGNED NOT NULL,
+                KEY (`product_id`),
+                KEY (`user_id`),
+                PRIMARY KEY (`link_id`)
+            ) Engine=MyISAM DEFAULT CHARSET UTF8;
+        </item>
+        <item for="uninstall">DROP TABLE IF EXISTS ?:only_one_product_user_links</item>
+    </queries>
 </addon>
