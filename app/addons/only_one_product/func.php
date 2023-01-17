@@ -4,6 +4,15 @@ if (!defined('BOOTSTRAP')) { die('Access denied'); }
 
 use Tygh\Enum\NotificationSeverity;
 
+function fn_get_products_ids($products)
+{
+    $cart_products = [];
+    foreach ($products as $key => $data) {
+        array_push($cart_products, $data['product_id']);
+    }
+    return $cart_products;
+}
+
 function fn_reset_amounts_to_one(&$product_data, $cart)
 {
     $cart_products = fn_get_products_ids($cart['products']);
@@ -44,14 +53,5 @@ function fn_only_one_product_place_order(&$order_id, &$action, &$order_status)
     }
 
     db_query('REPLACE INTO ?:only_one_product_user_links ?m', $links);
-}
-
-function fn_get_products_ids($products)
-{
-    $cart_products = [];
-    foreach ($products as $key => $data) {
-        array_push($cart_products, $data['product_id']);
-    }
-    return $cart_products;
 }
 
