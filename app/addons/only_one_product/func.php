@@ -4,6 +4,11 @@ if (!defined('BOOTSTRAP')) { die('Access denied'); }
 
 use Tygh\Enum\NotificationSeverity;
 
+function fn_set_warning($msg)
+{
+    fn_set_notification(NotificationSeverity::WARNING, __('warning'), $msg, 'S');
+}
+
 function fn_get_product_ids($products)
 {
     $product_ids = [];
@@ -40,7 +45,7 @@ function fn_reset_amounts_to_one(&$product_data, $cart)
     foreach ($product_data as $key => $data) {
         if (in_array($key, $cart_products)) {
             unset($product_data[$key]);
-            fn_set_notification(NotificationSeverity::WARNING, __('warning'), __('only_one_product.already_in_cart'), 'S');
+            fn_set_warning(__('only_one_product.already_in_cart'));
         } else {
             $product_data[$key]['amount'] = 1;
         }
@@ -59,7 +64,7 @@ function fn_only_one_product_place_order(&$order_id, &$action, &$order_status)
     if (!empty($order['user_id'])) {
         $user_id = $order['user_id'];
     } else {
-        fn_set_notification(NotificiatonSeverity::WARNING, __('warning'), __('only_one_product.anonymous_purchases_prohibited'), 'S');
+        fn_set_notification(__('only_one_product.anonymous_purchases_prohibited'));
         return [CONTROLLER_STATUS_REDIRECT, 'auth.login_form'];
     }
     $ids = fn_get_product_ids($order['products']);
