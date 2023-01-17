@@ -13,8 +13,7 @@
                 `link_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 `product_id` MEDIUMINT UNSIGNED NOT NULL,
                 `user_id` MEDIUMINT UNSIGNED NOT NULL,
-                KEY (`product_id`),
-                KEY (`user_id`),
+                UNIQUE KEY `link` (`product_id`, `user_id`),
                 PRIMARY KEY (`link_id`)
             ) Engine=MyISAM DEFAULT CHARSET UTF8;
         </item>
