@@ -12,3 +12,15 @@ msgctxt "Addons::description::only_one_product"
 msgid "Allows customers to buy a product in a single copy"
 msgstr "Allows customers to buy a product in a single copy"
 
+msgctxt "Languages::only_one_product.already_in_cart"
+msgid "This item has already been added to the cart"
+msgstr "This item has already been added to the cart"
+
+msgctxt "Languages::only_one_product.anonymous_purchases_prohibited"
+msgid "Anonymous purchases are prohibited"
+msgstr "Anonymous purchases are prohibited"
+
+msgctxt "Languages::only_one_product.already_bought"
+msgid "You have already bought this product"
+msgstr "You have already bought this product"
+
