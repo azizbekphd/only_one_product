@@ -12,15 +12,21 @@ function fn_set_warning($msg)
 function fn_get_product_ids($products)
 {
     $product_ids = [];
+    foreach ($products as $key => $data) {
+        array_push($product_ids, $data['product_id']);
+    }
+    return $product_ids;
+}
+
+function fn_get_product_ids_without_variations($products)
+{
+    $product_ids = fn_get_product_ids($products);
     $check_variations = count(
         db_get_array(
             'SHOW COLUMNS FROM ?:products LIKE ?s',
             'parent_product_id')
     ) === 1;
 
-    foreach ($products as $key => $data) {
-        array_push($product_ids, $data['product_id']);
-    }
     if (!$check_variations) {
         return $product_ids;
     }
@@ -40,7 +46,7 @@ function fn_get_product_ids($products)
 
 function fn_reset_amounts_to_one(&$product_data, $cart)
 {
-    $cart_products = fn_get_product_ids($cart['products']);
+    $cart_products = fn_get_product_ids_without_variations($cart['products']);
 
     foreach ($product_data as $key => $data) {
         if (in_array($key, $cart_products)) {
