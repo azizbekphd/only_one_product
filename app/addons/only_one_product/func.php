@@ -4,18 +4,38 @@ if (!defined('BOOTSTRAP')) { die('Access denied'); }
 
 use Tygh\Enum\NotificationSeverity;
 
-function fn_get_products_ids($products)
+function fn_get_product_ids($products)
 {
-    $cart_products = [];
+    $product_ids = [];
+    $check_variations = count(
+        db_get_array(
+            'SHOW COLUMNS FROM ?:products LIKE ?s',
+            'parent_product_id')
+    ) === 1;
+
     foreach ($products as $key => $data) {
-        array_push($cart_products, $data['product_id']);
+        array_push($product_ids, $data['product_id']);
     }
-    return $cart_products;
+    if (!$check_variations) {
+        return $product_ids;
+    }
+
+    $variations = db_get_hash_single_array(
+        'SELECT product_id, parent_product_id FROM ' .
+        '?:products WHERE product_id IN (?n)',
+        ['product_id', 'parent_product_id'], $product_ids
+    );
+    foreach ($product_ids as &$id) {
+        if (isset($variations[$id])) {
+            $id = $variations[$id];
+        }
+    }
+    return $product_ids;
 }
 
 function fn_reset_amounts_to_one(&$product_data, $cart)
 {
-    $cart_products = fn_get_products_ids($cart['products']);
+    $cart_products = fn_get_product_ids($cart['products']);
 
     foreach ($product_data as $key => $data) {
         if (in_array($key, $cart_products)) {
@@ -42,7 +62,7 @@ function fn_only_one_product_place_order(&$order_id, &$action, &$order_status)
         fn_set_notification(NotificiatonSeverity::WARNING, __('warning'), __('only_one_product.anonymous_purchases_prohibited'), 'S');
         return [CONTROLLER_STATUS_REDIRECT, 'auth.login_form'];
     }
-    $ids = fn_get_products_ids($order['products']);
+    $ids = fn_get_product_ids($order['products']);
 
     foreach ($ids as $id) {
         $link = [
