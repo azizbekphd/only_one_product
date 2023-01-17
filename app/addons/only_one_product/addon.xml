@@ -6,6 +6,9 @@
     <position>0</position>
     <default_language>en</default_language>
     <status>active</status>
+    <compatibility>
+        <conflicts>buy_together,product_bundles</conflicts>
+    </compatibility>
     <queries>
         <item for="install">DROP TABLE IF EXISTS ?:only_one_product_user_links</item>
         <item for="install">
