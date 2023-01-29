@@ -28,7 +28,8 @@
     </settings>
 
     <queries>
-        <item for="install">DROP TABLE IF EXISTS ?:only_one_product_user_links</item>
+        <item for="install">DROP TABLE IF EXISTS ?:only_one_product_user_links;</item>
+        <item for="install">ALTER TABLE ?:products ADD COLUMN allow_only_single_copy char(1) NOT NULL DEFAULT 'N';</item>
         <item for="install">
             CREATE TABLE `?:only_one_product_user_links` (
                 `link_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -38,6 +39,7 @@
                 PRIMARY KEY (`link_id`)
             ) Engine=MyISAM DEFAULT CHARSET UTF8;
         </item>
-        <item for="uninstall">DROP TABLE IF EXISTS ?:only_one_product_user_links</item>
+        <item for="uninstall">DROP TABLE IF EXISTS ?:only_one_product_user_links;</item>
+        <item for="uninstall">ALTER TABLE ?:products DROP COLUMN IF EXISTS allow_only_single_copy;</item>
     </queries>
 </addon>

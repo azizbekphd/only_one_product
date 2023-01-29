@@ -32,6 +32,10 @@ msgctxt "Languages::only_one_product"
 msgid "Only one product"
 msgstr "Only one product"
 
+msgctxt "Languages::only_one_product.allow_only_single_copy"
+msgid "Allow only a single copy"
+msgstr "Allow only a single copy"
+
 msgctxt "Languages::only_one_product.already_in_cart"
 msgid "This item has already been added to the cart"
 msgstr "This item has already been added to the cart"
