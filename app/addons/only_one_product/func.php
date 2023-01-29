@@ -6,11 +6,23 @@ use Tygh\Enum\NotificationSeverity;
 use Tygh\Enum\OrderStatuses;
 use Tygh\Enum\VariationSources;
 
+/**
+ * Shows warning notification
+ *
+ * @param string $msg Message of a notification
+ */
 function fn_set_warning($msg)
 {
     fn_set_notification(NotificationSeverity::WARNING, __('warning'), $msg, 'S');
 }
 
+/**
+ * Converts an array of products to an array of product IDs
+ *
+ * @param array $products List of products
+ *
+ * @return array<int> Array containing IDs of products
+ */
 function fn_get_products_ids($products)
 {
     $product_ids = [];
@@ -20,6 +32,13 @@ function fn_get_products_ids($products)
     return $product_ids;
 }
 
+/**
+ * Get variations of product
+ *
+ * @param int $product_id Product id
+ *
+ * @return array<int> Array containing product variation IDs
+ */
 function fn_get_product_variations($product_id)
 {
     $variations = [];
@@ -57,6 +76,14 @@ function fn_get_product_variations($product_id)
     return $variations;
 }
 
+/**
+ * Checks if product is already added to cart
+ *
+ * @param array $prooduct_variations List of product variations
+ * @param array $cart                Array of cart
+ *
+ * @return bool Product is already added to cart
+ */
 function fn_product_is_already_in_cart($product_variations, $cart)
 {
     return count(array_intersect(
@@ -65,6 +92,14 @@ function fn_product_is_already_in_cart($product_variations, $cart)
     )) > 0;
 }
 
+/**
+ * Checks if product is already bought before
+ *
+ * @param array $prooduct_variations List of product variations
+ * @param array $auth                Auth data
+ *
+ * @return bool Product is already bought before
+ */
 function fn_product_is_already_bought($product_variations, $auth)
 {
     $user_id = $auth['user_id'];
@@ -82,6 +117,15 @@ function fn_product_is_already_bought($product_variations, $auth)
     return !empty($orders);
 }
 
+/**
+ * Checks if product is already added to cart or has been bought before
+ * and resets amount to zero
+ *
+ * @param array $product_data List of products data
+ * @param array $cart         Array of cart content and user information necessary for purchase
+ * @param array $auth         Array of user authentication data (e.g. uid, usergroup_ids, etc.)
+ * @param bool  $update       Flag, if true that is update mode. Usable for order management
+ */
 function fn_only_one_product_pre_add_to_cart(&$product_data, $cart, $auth, $update)
 {
     foreach ($product_data as $key => $data) {
@@ -99,6 +143,13 @@ function fn_only_one_product_pre_add_to_cart(&$product_data, $cart, $auth, $upda
     }
 }
 
+/**
+ * Redirects to the login page if user is not logged in
+ *
+ * @param int    $order_id     Order id
+ * @param string $action       Current action. Can be empty or "save"
+ * @param string $order_status Order status (one char)
+ */
 function fn_only_one_product_place_order(&$order_id, &$action, &$order_status)
 {
     $order_info = fn_get_order_info($order_id);
