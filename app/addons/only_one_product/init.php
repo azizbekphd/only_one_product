@@ -2,8 +2,18 @@
 
 if (!defined('BOOTSTRAP')) { die('Access denied'); }
 
+use Tygh\Settings;
+use Tygh\Enum\VariationSources;
+
 fn_register_hooks(
     'pre_add_to_cart',
     'place_order',
+);
+
+define(
+    'VARIATION_SOURCE',
+    VariationSources::getValue(
+        Settings::instance()->getValue('variation_source', 'only_one_product'),
+    )
 );
 

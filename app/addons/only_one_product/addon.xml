@@ -8,7 +8,25 @@
     <status>active</status>
     <compatibility>
         <conflicts>buy_together,product_bundles</conflicts>
+        <dependencies>product_variations</dependencies>
     </compatibility>
+
+    <settings layout="separate">
+        <sections>
+            <section id="general">
+                <items>
+                    <item id="variation_source">
+                        <type>selectbox</type>
+                        <variants>
+                            <item id="parent_product_id"></item>
+                            <item id="variation_group"></item>
+                        </variants>
+                    </item>
+                </items>
+            </section>
+        </sections>
+    </settings>
+
     <queries>
         <item for="install">DROP TABLE IF EXISTS ?:only_one_product_user_links</item>
         <item for="install">

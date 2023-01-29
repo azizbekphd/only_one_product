@@ -12,6 +12,26 @@ msgctxt "Addons::description::only_one_product"
 msgid "Allows customers to buy a product in a single copy"
 msgstr "Allows customers to buy a product in a single copy"
 
+msgctxt "SettingsSections::only_one_product::general"
+msgid "General"
+msgstr "General"
+
+msgctxt "SettingsOptions::only_one_product::variation_source"
+msgid "Variation source"
+msgstr "Variation source"
+
+msgctxt "SettingsVariants::only_one_product::variation_source::parent_product_id"
+msgid "Parent product"
+msgstr "Parent product"
+
+msgctxt "SettingsVariants::only_one_product::variation_source::variation_group"
+msgid "Variation group"
+msgstr "Variation group"
+
+msgctxt "Languages::only_one_product"
+msgid "Only one product"
+msgstr "Only one product"
+
 msgctxt "Languages::only_one_product.already_in_cart"
 msgid "This item has already been added to the cart"
 msgstr "This item has already been added to the cart"
@@ -21,6 +41,6 @@ msgid "Anonymous purchases are prohibited"
 msgstr "Anonymous purchases are prohibited"
 
 msgctxt "Languages::only_one_product.already_bought"
-msgid "You have already bought this product"
-msgstr "You have already bought this product"
+msgid "You have already bought this item"
+msgstr "You have already bought this item"
 
