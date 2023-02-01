@@ -1,0 +1,50 @@
+msgid ""
+msgstr "Project-Id-Version: tygh\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Russian\n"
+"Language: ru_RU\n"
+
+msgctxt "Addons::name::only_one_product"
+msgid "Only one product"
+msgstr "Только один товар"
+
+msgctxt "Addons::description::only_one_product"
+msgid "Allows customers to buy a product in a single copy"
+msgstr "Позволяет покупателям приобретать товары в единственном экземпляре"
+
+msgctxt "SettingsSections::only_one_product::general"
+msgid "General"
+msgstr "Основные"
+
+msgctxt "SettingsOptions::only_one_product::variation_source"
+msgid "Variation source"
+msgstr "Источник вариаций"
+
+msgctxt "SettingsVariants::only_one_product::variation_source::parent_product_id"
+msgid "Parent product"
+msgstr "Родительский товар"
+
+msgctxt "SettingsVariants::only_one_product::variation_source::variation_group"
+msgid "Variation group"
+msgstr "Группа вариаций"
+
+msgctxt "Languages::only_one_product"
+msgid "Only one product"
+msgstr "Только один товар"
+
+msgctxt "Languages::only_one_product.allow_only_single_copy"
+msgid "Allow only a single copy"
+msgstr "Разрешать покупать только один раз"
+
+msgctxt "Languages::only_one_product.already_in_cart"
+msgid "This item has already been added to the cart"
+msgstr "Этот товар уже был добавлен в корзину"
+
+msgctxt "Languages::only_one_product.anonymous_purchases_prohibited"
+msgid "Anonymous purchases are prohibited"
+msgstr "Анонимные покупки запрещены"
+
+msgctxt "Languages::only_one_product.already_bought"
+msgid "You have already bought this item"
+msgstr "Вы уже покупали этот товар"
+
