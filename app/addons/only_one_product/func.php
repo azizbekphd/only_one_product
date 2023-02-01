@@ -3,8 +3,10 @@
 if (!defined('BOOTSTRAP')) { die('Access denied'); }
 
 use Tygh\Enum\NotificationSeverity;
-use Tygh\Enum\OrderStatuses;
 use Tygh\Enum\VariationSources;
+use Tygh\Enum\OrderStatuses;
+use Tygh\Enum\YesNo;
+use Tygh\Enum\Addons\Wishlist\CartTypes;
 
 /**
  * Shows warning notification
@@ -14,6 +16,22 @@ use Tygh\Enum\VariationSources;
 function fn_set_warning($msg)
 {
     fn_set_notification(NotificationSeverity::WARNING, __('warning'), $msg, 'S');
+}
+
+/**
+ * Checks if product is allowed to buy only in a single copy
+ *
+ * @param int $product_id Product id
+ *
+ * @return bool Product is allowed to buy only in a single copy
+ */
+function fn_is_allowed_only_single_copy($product_id)
+{
+    $allow_single_copy = db_get_field(
+        'SELECT allow_only_single_copy FROM ?:products ' .
+        'WHERE product_id = ?i', $product_id
+    );
+    return $allow_single_copy === YesNo::YES;
 }
 
 /**
@@ -119,7 +137,7 @@ function fn_product_is_already_bought($product_variations, $auth)
 
 /**
  * Checks if product is already added to cart or has been bought before
- * and resets amount to zero
+ * and resets amount to zero before adding to cart
  *
  * @param array $product_data List of products data
  * @param array $cart         Array of cart content and user information necessary for purchase
@@ -130,6 +148,11 @@ function fn_only_one_product_pre_add_to_cart(&$product_data, $cart, $auth, $upda
 {
     foreach ($product_data as $key => $data) {
         $product_id = $data['product_id'];
+
+        if (!fn_is_allowed_only_single_copy($product_id)) {
+            continue;
+        }
+
         $product_variations = fn_get_product_variations($product_id);
         if (fn_product_is_already_in_cart($product_variations, $cart)) {
             unset($product_data[$key]);
@@ -144,18 +167,54 @@ function fn_only_one_product_pre_add_to_cart(&$product_data, $cart, $auth, $upda
 }
 
 /**
+ * Checks if product has been bought before and resets amount to zero
+ * before adding to wishlist
+ *
+ * @param array $product_data List of products_data
+ * @param array $wishlist     Wishlist data storage
+ * @param array $auth         User session data
+ */
+function fn_only_one_product_pre_add_to_wishlist(&$product_data, $wishlist, $auth)
+{
+    foreach ($product_data as $key => $data) {
+        $product_id = $data['product_id'];
+
+        if (!fn_is_allowed_only_single_copy($product_id)) {
+            continue;
+        }
+
+        $product_variations = fn_get_product_variations($product_id);
+        if (fn_product_is_already_bought($product_variations, $auth)) {
+            unset($product_data[$key]);
+            fn_set_warning(__('only_one_product.already_bought'));
+        } else {
+            $product_data[$key]['amount'] = 1;
+        }
+    }
+}
+
+/**
  * Redirects to the login page if user is not logged in
+ * and deletes purchased products from the wishlist
  *
  * @param int    $order_id     Order id
  * @param string $action       Current action. Can be empty or "save"
  * @param string $order_status Order status (one char)
  */
-function fn_only_one_product_place_order(&$order_id, &$action, &$order_status)
+function fn_only_one_product_pre_place_order($cart, $allow, $product_groups)
 {
-    $order_info = fn_get_order_info($order_id);
-    if (empty($order_info['user_id'])) {
+    if (empty($cart['user_id'])) {
         fn_set_warning(__('only_one_product.anonymous_purchases_prohibited'));
         return [CONTROLLER_STATUS_REDIRECT, 'auth.login_form'];
     }
+    db_query('DELETE ?:user_session_products FROM ?:user_session_products INNER JOIN ' .
+        '?:products ON ?:user_session_products.user_id = ?i ' .
+        'AND ?:user_session_products.type = ?s ' .
+        'AND ?:user_session_products.product_id IN (?n) ' .
+        'AND ?:user_session_products.product_id = ?:products.product_id ' .
+        'AND ?:products.allow_only_single_copy = ?s',
+        $cart['user_id'], CartTypes::WISHLIST,
+        fn_get_products_ids($cart['products']), YesNo::YES
+    );
 }
 

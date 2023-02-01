@@ -7,7 +7,8 @@ use Tygh\Enum\VariationSources;
 
 fn_register_hooks(
     'pre_add_to_cart',
-    'place_order',
+    'pre_place_order',
+    'pre_add_to_wishlist',
 );
 
 define(

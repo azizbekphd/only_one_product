@@ -11,8 +11,6 @@ if ($mode === 'update') {
         'js' => true,
     ]);
 
-
-
 } elseif ($mode === 'add') {
 
     Registry::set('navigation.tabs.only_one_product', [
