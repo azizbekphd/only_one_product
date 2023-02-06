@@ -9,6 +9,7 @@ fn_register_hooks(
     'pre_add_to_cart',
     'pre_place_order',
     'pre_add_to_wishlist',
+    'calculate_cart_post',
 );
 
 define(

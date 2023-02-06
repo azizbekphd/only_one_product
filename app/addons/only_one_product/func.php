@@ -218,3 +218,24 @@ function fn_only_one_product_pre_place_order($cart, $allow, $product_groups)
     );
 }
 
+function fn_only_one_product_calculate_cart_post(
+    $cart,
+    $auth,
+    $calculate_shipping,
+    $calculate_taxes,
+    $options_style,
+    $apply_cart_promotions,
+    &$cart_products,
+    $product_groups
+) {
+    $single_copy_products = db_get_fields(
+        'SELECT product_id FROM ?:products ' .
+        'WHERE allow_only_single_copy = ?s',
+        YesNo::YES
+    );
+    foreach ($cart_products as $key => &$product) {
+        $product_id = $product['product_id'];
+        $product['allow_only_single_copy'] = in_array($product_id, $single_copy_products);
+    }
+}
+
