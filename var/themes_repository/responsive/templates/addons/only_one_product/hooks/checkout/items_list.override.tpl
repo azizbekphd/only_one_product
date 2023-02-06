@@ -1,7 +1,7 @@
 {if !$cart.products.$key.extra.parent}
     <tr>
         <td class="ty-cart-content__product-elem ty-cart-content__image-block">
-            {if $runtime.mode == "cart" || $show_images}
+            {if $runtime.mode === "cart" || $show_images}
                 <div class="ty-cart-content__image cm-reload-{$obj_id}" id="product_image_update_{$obj_id}">
                     {hook name="checkout:product_icon"}
                         <a href="{"products.view?product_id=`$product.product_id`"|fn_url}">
@@ -41,7 +41,7 @@
                 {hook name="checkout:product_info"}
                     {if $product.exclude_from_calculate}
                         <strong><span class="price">{__("free")}</span></strong>
-                    {elseif $product.discount|floatval || ($product.taxes && $settings.Checkout.tax_calculation != "subtotal")}
+                    {elseif $product.discount|floatval || ($product.taxes && $settings.Checkout.tax_calculation !== "subtotal")}
                         {if $product.discount|floatval}
                             {assign var="price_info_title" value=__("discount")}
                         {else}
@@ -56,7 +56,7 @@
                                         <th class="ty-cart-content__more-info-title">{__("price")}</th>
                                         <th class="ty-cart-content__more-info-title">{__("quantity")}</th>
                                         {if $product.discount|floatval}<th class="ty-cart-content__more-info-title">{__("discount")}</th>{/if}
-                                        {if $product.taxes && $settings.Checkout.tax_calculation != "subtotal"}<th>{__("tax")}</th>{/if}
+                                        {if $product.taxes && $settings.Checkout.tax_calculation !== "subtotal"}<th>{__("tax")}</th>{/if}
                                         <th class="ty-cart-content__more-info-title">{__("subtotal")}</th>
                                     </tr>
                                 </thead>
@@ -65,7 +65,7 @@
                                         <td>{include file="common/price.tpl" value=$product.original_price span_id="original_price_`$key`" class="none"}</td>
                                         <td class="ty-center">{$product.amount}</td>
                                         {if $product.discount|floatval}<td>{include file="common/price.tpl" value=$product.discount span_id="discount_subtotal_`$key`" class="none"}</td>{/if}
-                                        {if $product.taxes && $settings.Checkout.tax_calculation != "subtotal"}<td>{include file="common/price.tpl" value=$product.tax_summary.total span_id="tax_subtotal_`$key`" class="none"}</td>{/if}
+                                        {if $product.taxes && $settings.Checkout.tax_calculation !== "subtotal"}<td>{include file="common/price.tpl" value=$product.tax_summary.total span_id="tax_subtotal_`$key`" class="none"}</td>{/if}
                                         <td>{include file="common/price.tpl" span_id="product_subtotal_2_`$key`" value=$product.display_subtotal class="none"}</td>
                                     </tr>
                                 </tbody>
@@ -96,35 +96,35 @@
         {include file="common/price.tpl" value=$product.display_price span_id="product_price_`$key`" class="ty-sub-price"}
         <!--price_display_update_{$obj_id}--></td>
 
-        <td class="ty-cart-content__product-elem ty-cart-content__qty {if $product.is_edp == "Y" || $product.exclude_from_calculate} quantity-disabled{/if}">
+        <td class="ty-cart-content__product-elem ty-cart-content__qty {if $product.is_edp === "YesNo::YES"|enum || $product.exclude_from_calculate} quantity-disabled{/if}">
             {if !$product.allow_only_single_copy}
-                {if $use_ajax == true && $cart.amount != 1}
+                {if $use_ajax === true && $cart.amount !== 1}
                     {assign var="ajax_class" value="cm-ajax"}
                 {/if}
 
-                <div class="quantity cm-reload-{$obj_id}{if $settings.Appearance.quantity_changer == "Y"} changer{/if}" id="quantity_update_{$obj_id}">
+                <div class="quantity cm-reload-{$obj_id}{if $settings.Appearance.quantity_changer === "YesNo::YES"|enum} changer{/if}" id="quantity_update_{$obj_id}">
                     <input type="hidden" name="cart_products[{$key}][product_id]" value="{$product.product_id}" />
                     {if $product.exclude_from_calculate}<input type="hidden" name="cart_products[{$key}][extra][exclude_from_calculate]" value="{$product.exclude_from_calculate}" />{/if}
 
                     <label for="amount_{$key}"></label>
-                    {if $product.is_edp == "Y" || $product.exclude_from_calculate}
+                    {if $product.is_edp === "YesNo::YES"|enum || $product.exclude_from_calculate}
                         {$product.amount}
                     {else}
-                        {if $settings.Appearance.quantity_changer == "Y"}
+                        {if $settings.Appearance.quantity_changer === "YesNo::YES"|enum}
                             <div class="ty-center ty-value-changer cm-value-changer">
                             <a class="cm-increase ty-value-changer__increase">&#43;</a>
                         {/if}
                         <input type="text" size="3" id="amount_{$key}" name="cart_products[{$key}][amount]" value="{$product.amount}" class="ty-value-changer__input cm-amount cm-value-decimal"{if $product.qty_step > 1} data-ca-step="{$product.qty_step}"{/if} data-ca-min-qty="{if !$product.min_qty}{$default_minimal_qty}{else}{$product.min_qty}{/if}" />
-                        {if $settings.Appearance.quantity_changer == "Y"}
+                        {if $settings.Appearance.quantity_changer === "YesNo::YES"|enum}
                             <a class="cm-decrease ty-value-changer__decrease">&minus;</a>
                             </div>
                         {/if}
                     {/if}
-                    {if $product.is_edp == "Y" || $product.exclude_from_calculate}
+                    {if $product.is_edp === "YesNo::YES"|enum || $product.exclude_from_calculate}
                         <input type="hidden" name="cart_products[{$key}][amount]" value="{$product.amount}" />
                     {/if}
-                    {if $product.is_edp == "Y"}
-                        <input type="hidden" name="cart_products[{$key}][is_edp]" value="Y" />
+                    {if $product.is_edp === "YesNo::YES"|enum}
+                    <input type="hidden" name="cart_products[{$key}][is_edp]" value="{"YesNo::YES"|enum}" />
                     {/if}
                 <!--quantity_update_{$obj_id}--></div>
             {/if}
@@ -132,7 +132,7 @@
 
         <td class="ty-cart-content__product-elem ty-cart-content__price cm-reload-{$obj_id}" id="price_subtotal_update_{$obj_id}">
             {include file="common/price.tpl" value=$product.display_subtotal span_id="product_subtotal_`$key`" class="price"}
-            {if $product.zero_price_action == "A"}
+            {if $product.zero_price_action === "ProductZeroPriceActions::ASK_TO_ENTER_PRICE"|enum}
                 <input type="hidden" name="cart_products[{$key}][price]" value="{$product.base_price}" />
             {/if}
         <!--price_subtotal_update_{$obj_id}--></td>
