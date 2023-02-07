@@ -96,38 +96,38 @@
         {include file="common/price.tpl" value=$product.display_price span_id="product_price_`$key`" class="ty-sub-price"}
         <!--price_display_update_{$obj_id}--></td>
 
-        <td class="ty-cart-content__product-elem ty-cart-content__qty {if $product.is_edp === "YesNo::YES"|enum || $product.exclude_from_calculate} quantity-disabled{/if}">
-            {if !$product.allow_only_single_copy}
-                {if $use_ajax === true && $cart.amount !== 1}
-                    {assign var="ajax_class" value="cm-ajax"}
-                {/if}
-
-                <div class="quantity cm-reload-{$obj_id}{if $settings.Appearance.quantity_changer === "YesNo::YES"|enum} changer{/if}" id="quantity_update_{$obj_id}">
-                    <input type="hidden" name="cart_products[{$key}][product_id]" value="{$product.product_id}" />
-                    {if $product.exclude_from_calculate}<input type="hidden" name="cart_products[{$key}][extra][exclude_from_calculate]" value="{$product.exclude_from_calculate}" />{/if}
-
-                    <label for="amount_{$key}"></label>
-                    {if $product.is_edp === "YesNo::YES"|enum || $product.exclude_from_calculate}
-                        {$product.amount}
-                    {else}
-                        {if $settings.Appearance.quantity_changer === "YesNo::YES"|enum}
-                            <div class="ty-center ty-value-changer cm-value-changer">
-                            <a class="cm-increase ty-value-changer__increase">&#43;</a>
-                        {/if}
-                        <input type="text" size="3" id="amount_{$key}" name="cart_products[{$key}][amount]" value="{$product.amount}" class="ty-value-changer__input cm-amount cm-value-decimal"{if $product.qty_step > 1} data-ca-step="{$product.qty_step}"{/if} data-ca-min-qty="{if !$product.min_qty}{$default_minimal_qty}{else}{$product.min_qty}{/if}" />
-                        {if $settings.Appearance.quantity_changer === "YesNo::YES"|enum}
-                            <a class="cm-decrease ty-value-changer__decrease">&minus;</a>
-                            </div>
-                        {/if}
-                    {/if}
-                    {if $product.is_edp === "YesNo::YES"|enum || $product.exclude_from_calculate}
-                        <input type="hidden" name="cart_products[{$key}][amount]" value="{$product.amount}" />
-                    {/if}
-                    {if $product.is_edp === "YesNo::YES"|enum}
-                    <input type="hidden" name="cart_products[{$key}][is_edp]" value="{"YesNo::YES"|enum}" />
-                    {/if}
-                <!--quantity_update_{$obj_id}--></div>
+        <td class="ty-cart-content__product-elem ty-cart-content__qty {if $product.is_edp === "YesNo::YES"|enum || $product.exclude_from_calculate || $product.allow_only_single_copy} quantity-disabled{/if}">
+            {if $use_ajax === true && $cart.amount !== 1}
+                {assign var="ajax_class" value="cm-ajax"}
             {/if}
+
+            <div class="quantity cm-reload-{$obj_id}{if $settings.Appearance.quantity_changer === "YesNo::YES"|enum} changer{/if}" id="quantity_update_{$obj_id}">
+                <input type="hidden" name="cart_products[{$key}][product_id]" value="{$product.product_id}" />
+                {if $product.exclude_from_calculate}<input type="hidden" name="cart_products[{$key}][extra][exclude_from_calculate]" value="{$product.exclude_from_calculate}" />{/if}
+
+                <label for="amount_{$key}"></label>
+                {if $product.is_edp === "YesNo::YES"|enum || $product.exclude_from_calculate || $product.allow_only_single_copy}
+                    {$product.amount}
+                {else}
+                    {if $settings.Appearance.quantity_changer === "YesNo::YES"|enum}
+                        <div class="ty-center ty-value-changer cm-value-changer">
+                        <a class="cm-increase ty-value-changer__increase">&#43;</a>
+                    {/if}
+                    <input type="text" size="3" id="amount_{$key}" name="cart_products[{$key}][amount]" value="{$product.amount}"
+                        class="ty-value-changer__input cm-amount cm-value-decimal"{if $product.qty_step > 1} data-ca-step="{$product.qty_step}"{/if}
+                        data-ca-min-qty="{if !$product.min_qty}{$default_minimal_qty}{else}{$product.min_qty}{/if}" />
+                    {if $settings.Appearance.quantity_changer === "YesNo::YES"|enum}
+                        <a class="cm-decrease ty-value-changer__decrease">&minus;</a>
+                        </div>
+                    {/if}
+                {/if}
+                {if $product.is_edp === "YesNo::YES"|enum || $product.exclude_from_calculate || $product.allow_only_single_copy}
+                    <input type="hidden" name="cart_products[{$key}][amount]" value="{$product.amount}" />
+                {/if}
+                {if $product.is_edp === "YesNo::YES"|enum}
+                <input type="hidden" name="cart_products[{$key}][is_edp]" value="{"YesNo::YES"|enum}" />
+                {/if}
+            <!--quantity_update_{$obj_id}--></div>
         </td>
 
         <td class="ty-cart-content__product-elem ty-cart-content__price cm-reload-{$obj_id}" id="price_subtotal_update_{$obj_id}">
