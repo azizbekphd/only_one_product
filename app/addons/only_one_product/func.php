@@ -218,6 +218,24 @@ function fn_only_one_product_pre_place_order($cart, $allow, $product_groups)
     );
 }
 
+/**
+ * Hook of "calculate cart post"
+ *
+ * @param array  $cart                 Cart data
+ * @param array  $auth                 Auth data
+ * @param string $calculate_shipping   // 1-letter flag
+ *      A - calculate all available methods
+ *      E - calculate selected methods only (from cart[shipping])
+ *      S - skip calculation
+ * @param bool   $calculate_taxes      Flag determines if taxes should be calculated
+ * @param string $options_style        1-letter flag
+ *      "F" - Full option information  (with exceptions)
+ *      "I" - Short info
+ *      "" - "Source" info. Only ids array (option_id => variant_id)
+ * @param bool  $apply_cart_promotions Flag determines if promotions should be applied to the cart
+ * @param array $cart_products         Cart products
+ * @param array $product_groups        Products grouped by packages, suppliers, vendors
+ */
 function fn_only_one_product_calculate_cart_post(
     $cart,
     $auth,
