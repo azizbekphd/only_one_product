@@ -17,6 +17,7 @@
                 <items>
                     <item id="variation_source">
                         <type>selectbox</type>
+                        <default_value>parent_product_id</default_value>
                         <variants>
                             <item id="parent_product_id"></item>
                             <item id="variation_group"></item>
