@@ -6,4 +6,41 @@
     <position>0</position>
     <default_language>en</default_language>
     <status>active</status>
+    <compatibility>
+        <conflicts>buy_together,product_bundles</conflicts>
+        <dependencies>product_variations</dependencies>
+    </compatibility>
+
+    <settings layout="separate">
+        <sections>
+            <section id="general">
+                <items>
+                    <item id="variation_source">
+                        <type>selectbox</type>
+                        <default_value>parent_product_id</default_value>
+                        <variants>
+                            <item id="parent_product_id"></item>
+                            <item id="variation_group"></item>
+                        </variants>
+                    </item>
+                </items>
+            </section>
+        </sections>
+    </settings>
+
+    <queries>
+        <item for="install">DROP TABLE IF EXISTS ?:only_one_product_user_links;</item>
+        <item for="install">ALTER TABLE ?:products ADD COLUMN allow_only_single_copy char(1) NOT NULL DEFAULT 'N';</item>
+        <item for="install">
+            CREATE TABLE `?:only_one_product_user_links` (
+                `link_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `product_id` MEDIUMINT UNSIGNED NOT NULL,
+                `user_id` MEDIUMINT UNSIGNED NOT NULL,
+                UNIQUE KEY `link` (`product_id`, `user_id`),
+                PRIMARY KEY (`link_id`)
+            ) Engine=MyISAM DEFAULT CHARSET UTF8;
+        </item>
+        <item for="uninstall">DROP TABLE IF EXISTS ?:only_one_product_user_links;</item>
+        <item for="uninstall">ALTER TABLE ?:products DROP COLUMN IF EXISTS allow_only_single_copy;</item>
+    </queries>
 </addon>
